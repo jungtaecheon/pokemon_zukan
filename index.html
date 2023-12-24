@@ -65,7 +65,7 @@
           const species = await pokemon_species_data.json();
 
           const species_name = species.names.find(
-            (item) => item.language.name === "ja-Hrkt"
+            (item) => item.language.name === "ja"
           ).name;
           document.getElementById("pokemon-name").textContent = species_name;
 
