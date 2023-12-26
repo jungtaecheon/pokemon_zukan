@@ -37,7 +37,7 @@ async function fetchPokemon(id) {
 
     document.getElementById(
       "pokemon-flavor"
-    ).textContent = `まだ、No.${currentPokemon} ポケモンは見つかっていない。`;
+    ).textContent = `まだ、No.${currentPokemon} のポケモンは見つかっていない。`;
 
     console.log(err);
   } finally {
