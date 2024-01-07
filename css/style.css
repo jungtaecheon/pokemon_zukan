@@ -7,7 +7,7 @@ body {
   text-align: center;
 }
 
-.pokedex {
+.zukan {
   background-color: #ff0000;
   border-radius: 10px;
   padding: 20px;
@@ -16,21 +16,21 @@ body {
   margin: 0 auto; /* 左右中央に配置 */
   width: 500px; /* 画面の幅の最大90%を使用 */
 }
-.screen {
+.zukan_screen {
   background-color: #fff;
   margin: 20px;
   border: 5px solid #111;
   border-radius: 10px;
   padding: 20px;
 }
-.fukidasi {
+.flavor_text {
   text-align: justify;
   border-radius: 10px;
   padding: 10px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
   border: 5px double #111;
 }
-.poke_img {
+.pokemon_img {
   width: 110px;
 }
 
@@ -122,13 +122,13 @@ body {
   margin: 0; /* デフォルトのマージンをリセット */
 }
 
-#pokemon-number,
-#pokemon-name {
+.pokemon_number,
+.pokemon_name {
   font-size: 20px;
   margin: 10px;
 }
 
-#pokemon-flavor {
+.pokemon_flavor_text {
   margin: 0;
   font-size: 14px;
 }

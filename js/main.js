@@ -1,9 +1,19 @@
 let currentPokemon = 1;
 
+/**
+ * ポケモン画像の取得でエラーが発生した場合は、見つかってないポケモンとする
+ *
+ * ポケモン名の取得でエラーが発生したら、
+ *
+ * @param ポケモンNo id
+ */
 async function fetchPokemon(id) {
-  console.log(`currentPokemon is ${currentPokemon}`);
+  console.log(`currentPokemon : No.${currentPokemon}`);
 
-  document.getElementById("loading").style.display = "block"; // Show loading
+  // loading画面を表示
+  document.getElementById("loading").style.display = "block";
+
+  //ポケモンNo表示
   document.getElementById("pokemon-number").textContent = "No." + id;
 
   try {
@@ -31,7 +41,7 @@ async function fetchPokemon(id) {
     if (pokemon_gif) {
       document.getElementById("pokemon-img").src = pokemon_gif;
     } else {
-      throw new Error("Pokemon gif image is NULL.");
+      throw new Error("Pokemon Image is NULL.");
     }
 
     /**
@@ -45,10 +55,13 @@ async function fetchPokemon(id) {
       if (species_name) {
         document.getElementById("pokemon-name").textContent = species_name;
       } else {
-        throw new Error("Pokemon name is NULL.");
+        // 空文字, NULL, undefined の場合、例外を投げる
+        throw new Error("Pokemon Name is NULL.");
       }
     } catch (err) {
       console.log(err);
+
+      // ポケモンの名前のみ「不明」扱いにする（その他の処理は正常に実行）
       document.getElementById("pokemon-name").textContent = "不明";
     }
 
@@ -56,40 +69,44 @@ async function fetchPokemon(id) {
      * jsonからポケモンの説明データ取得&設定
      */
     try {
-      // バージョンを指定する場合
-      // const pokemon_flavor_text = species.flavor_text_entries.filter(
-      //   (item) =>
-      //     item.version.name === "omega-ruby" && item.language.name === "ja"
-      // )[0].flavor_text;
-
       const pokemon_flavor_text = species.flavor_text_entries.find(
         (item) => item.language.name === "ja"
       ).flavor_text;
 
       if (pokemon_flavor_text) {
-        document.getElementById("pokemon-flavor").textContent =
+        document.getElementById("pokemon-flavor-text").textContent =
           pokemon_flavor_text;
       } else {
-        throw new Error("Pokemon flavor text is NULL.");
+        // 空文字, NULL, undefined の場合、例外を投げる
+        throw new Error("Pokemon Flavor Text is NULL.");
       }
     } catch (err) {
+      console.log(err);
+
+      // ポケモンのフレーバーテキストのみ「明らかになっていない」扱いにする（その他の処理は正常に実行）
       document.getElementById(
-        "pokemon-flavor"
-      ).textContent = `まだ、No.${currentPokemon} の詳細な情報は明らかになっていない。`;
+        "pokemon-flavor-text"
+      ).textContent = `まだ、No.${currentPokemon} の詳しいデータは明らかになっていない。`;
     }
   } catch (err) {
+    // TODO:ここのCatchで例外を使い分ける
+    console.log(err);
+
+    // ポケモンが見つかってない扱いにする例外処理
     document.getElementById("pokemon-img").src = "./img/poke-ball.png";
     document.getElementById("pokemon-name").textContent = "";
     document.getElementById(
-      "pokemon-flavor"
+      "pokemon-flavor-text"
     ).textContent = `まだ、No.${currentPokemon} のポケモンは見つかっていない。`;
-
-    console.log(err);
   } finally {
-    document.getElementById("loading").style.display = "none"; // Hide loading
+    // loading画面を隠す
+    document.getElementById("loading").style.display = "none";
   }
 }
 
+//
+// イベントリスナー
+//
 document.getElementById("next").addEventListener("click", () => {
   currentPokemon += 1;
   fetchPokemon(currentPokemon);
@@ -119,4 +136,10 @@ document.getElementById("search").addEventListener("click", () => {
   document.getElementById("poke-number").value = "";
 });
 
-fetchPokemon(currentPokemon); // Initialize with the first Pokemon
+document.addEventListener("keydown", function (event) {
+  if (event.key === "Enter") {
+    document.getElementById("search").click();
+  }
+});
+
+fetchPokemon(currentPokemon);
